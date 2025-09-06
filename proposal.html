@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Proposal Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #f5f6fa;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.12);
+      padding: 32px 24px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .proposal {
+      font-size: 1.4em;
+      margin-bottom: 24px;
+    }
+    .proposal-edit {
+      margin-bottom: 24px;
+    }
+    .btn {
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 1em;
+      margin: 0 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+      z-index: 2;
+      position: relative;
+    }
+    .btn-yes {
+      background: #6dd47e;
+      color: #fff;
+    }
+    .btn-yes:hover {
+      background: #41b06e;
+    }
+    .btn-no {
+      background: #ff6b6b;
+      color: #fff;
+    }
+    .btn-no:hover {
+      background: #d90429;
+    }
+    #music-container {
+      margin-top: 24px;
+      display: none;
+    }
+    #gif-container {
+      margin-top: 24px;
+      display: none;
+    }
+    #crying-emojis {
+      margin-top: 24px;
+      font-size: 1.5em;
+      display: none;
+      word-break: break-all;
+      color: #d90429;
+      font-weight: bold;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+    .yt-link {
+      display: block;
+      margin-top: 8px;
+      color: #3949ab;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="proposal-edit">
+      <input type="text" id="proposal-message" value="Will you be my girlfriend/boyfriend? 😊" style="width:80%;padding:8px;border-radius:6px;border:1px solid #eee;">
+      <button class="btn" onclick="updateMessage()">Set</button>
+    </div>
+    <div class="proposal" id="proposal-text">Will you be my girlfriend/boyfriend? 😊</div>
+    <button class="btn btn-yes" onclick="pressYes()">Yes</button>
+    <button class="btn btn-no" onclick="pressNo()">No</button>
+    <div id="music-container"></div>
+    <div id="gif-container"></div>
+    <div id="crying-emojis"></div>
+  </div>
+  <script>
+    let noSpamActive = false;
+
+    function updateMessage() {
+      const msg = document.getElementById('proposal-message').value;
+      document.getElementById('proposal-text').textContent = msg;
+    }
+
+    function pressYes() {
+      noSpamActive = false;
+      document.getElementById('crying-emojis').style.display = 'none';
+      document.getElementById('gif-container').style.display = 'block';
+      document.getElementById('music-container').style.display = 'block';
+      // Show cute GIFs
+      document.getElementById('gif-container').innerHTML = `
+        <div>
+          <img src="https://media.giphy.com/media/3oriO7A7bt1wsEP4cw/giphy.gif" alt="Cute Cat" width="120" style="margin:8px;">
+          <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="Cute Bear" width="120" style="margin:8px;">
+          <img src="https://media.giphy.com/media/l4FGuhL4U2WyjdkaY/giphy.gif" alt="Cute Love" width="120" style="margin:8px;">
+          <img src="https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif" alt="Cute Puppy" width="120" style="margin:8px;">
+          <img src="https://media.giphy.com/media/26BRzozg4TCBXv6QU/giphy.gif" alt="Cute Bunnies" width="120" style="margin:8px;">
+        </div>
+      `;
+      // Show music
+      document.getElementById('music-container').innerHTML = `
+        <p>Playing: <b>Hanap-Hanap by James Reid</b></p>
+        <iframe width="320" height="180" src="https://www.youtube.com/embed/5v1jP6uKqWw?autoplay=1&mute=0"
+          title="Hanap Hanap by James Reid" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <a href="https://youtu.be/5v1jP6uKqWw" target="_blank" class="yt-link">If the music doesn't play, click here!</a>
+      `;
+    }
+
+    function spamNo() {
+      if (!noSpamActive) return;
+      const emojiDiv = document.getElementById('crying-emojis');
+      let spamText = '';
+      for (let i = 0; i < 40; i++) {
+        spamText += 'NO 😭 ';
+      }
+      emojiDiv.textContent += "\n" + spamText;
+      emojiDiv.style.display = 'block';
+      setTimeout(spamNo, 400); // keep spamming every 400ms
+    }
+
+    function pressNo() {
+      noSpamActive = true;
+      document.getElementById('music-container').style.display = 'none';
+      document.getElementById('gif-container').style.display = 'none';
+      document.getElementById('crying-emojis').textContent = '';
+      spamNo();
+    }
+  </script>
+</body>
+</html>
